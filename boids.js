@@ -15,7 +15,7 @@
     var deltaTime = 1 / refreshRate;
 
     // Simulation parameters.
-    var numberOfBoids = 1000;               // Number of boids in simulation.
+    var numberOfBoids = 200;                // Number of boids in simulation.
     var neighbourhoodRadius = 50;           // In pixels.
     var maxSpeed = 300;                     // In pixels per second.
     var maxAcceleration = 100;              // In pixels per second per second.
