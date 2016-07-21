@@ -10,20 +10,20 @@
     var deltaTime = 1 / refreshRate;
 
     // Simulation parameters.
-    var numberOfBoids = 200;                // Number of boids in simulation.
-    var neighbourhoodRadius = 50;           // In pixels.
-    var maxSpeed = 300;                     // In pixels per second.
-    var maxAcceleration = 100;              // In pixels per second per second.
-    var accelerationDecayFactor = 0.75;     // Factor between 0 and 1.
+    var numberOfBoids = null;                   // Number of boids in simulation.
+    var neighbourhoodRadius = null;             // In pixels.
+    var maxSpeed = null;                        // In pixels per second.
+    var maxAcceleration = null;                 // In pixels per second per second.
+    var accelerationDecayFactor = null;         // Factor between 0 and 1.
 
     // Rule weights.
-    var rule1Weight = 0.34;
-    var rule2Weight = 0.33;
-    var rule3Weight = 0.33;
+    var rule1Weight = null;
+    var rule2Weight = null;
+    var rule3Weight = null;
 
     // Boid display settings.
-    var boidHeight = 10;
-    var boidBase = 4;
+    var boidHeight = null;
+    var boidBase = null;
 
     /*
     *   Model.
