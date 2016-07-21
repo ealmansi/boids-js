@@ -1,13 +1,25 @@
-li {
-    list-style-type: none;
-    line-height: 50px;
+html, body {
+    height: 100%;
 }
-li span {
-    margin-bottom: 5px;
+.list-group {
+    padding: 30px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.list-group-item {
+    background: none;
+    border: none;
+}
+.input-group {
+    margin-bottom: 10px;
+}
+.slider-label {
+    margin-left: 10px;
 }
 canvas {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 0;
+    left: 0;
+    z-index: -1;
 }

@@ -4,11 +4,6 @@
     *   Parameters.
     */
 
-    // Canvas.
-    var canvasWidth = 600;
-    var canvasHeight = 600;
-    var canvasContext = null;
-
     // Refresh rate.
     var refreshRate = 60;                       // Number of times to refresh every second.
     var refreshInterval = 1000 / refreshRate;   // Number of milliseconds between refresh calls.
@@ -34,13 +29,17 @@
     *   Model.
     */
 
-    var boids = null;
+    var boids = null; // List of Boid.
 
     function Boid(pos, vel, acc) {
         this.pos = pos; // Vector.
         this.vel = vel; // Vector.
         this.acc = acc; // Vector.
     }
+
+    /*
+    *   Vector.
+    */
 
     function Vector(x, y) {
         this.x = x;
@@ -61,13 +60,21 @@
     }
 
     /*
+    *   Canvas.
+    */
+
+    var canvas = null;
+    var canvasWidth = null;
+    var canvasHeight = null;
+    var canvasContext = null;
+
+    /*
     *   Neighbourhood table.
     */
 
     var neighbourhoodTable = null;
-
-    var neighbourhoodTableWidth = Math.ceil(canvasWidth / neighbourhoodRadius);
-    var neighbourhoodTableHeight = Math.ceil(canvasHeight / neighbourhoodRadius);
+    var neighbourhoodTableWidth = null;
+    var neighbourhoodTableHeight = null;
 
     /*
     *   Main.
@@ -76,7 +83,7 @@
     function main() {
         setup();
         refresh();
-        setInterval(function() {
+        return setInterval(function() {
             update();
             refresh();
         }, refreshInterval);
@@ -93,13 +100,20 @@
     }
 
     function setupCanvas() {
-        var canvas = document.getElementsByTagName("canvas")[0];
-        canvas.setAttribute("width", canvasWidth);
-        canvas.setAttribute("height", canvasHeight);
+        canvas = document.getElementById("boids-canvas");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        canvasWidth = canvas.width;
+        canvasHeight = canvas.height;
         canvasContext = canvas.getContext("2d");
+        // Styling.
+        canvasContext.lineWidth = 1;
+        canvasContext.strokeStyle = 'gray';
     }
 
     function setupNeighbourhoodTable() {
+        neighbourhoodTableWidth = Math.ceil(canvasWidth / neighbourhoodRadius);
+        neighbourhoodTableHeight = Math.ceil(canvasHeight / neighbourhoodRadius);
         neighbourhoodTable = new Array(neighbourhoodTableHeight);
         _.times(neighbourhoodTableHeight, function(i) {
             neighbourhoodTable[i] = new Array(neighbourhoodTableWidth);
@@ -146,7 +160,6 @@
             var j = Math.floor(boid.pos.x / neighbourhoodRadius);
             neighbourhoodTable[i][j].push(boid);
         });
-        return neighbourhoodTable;
     }
 
     function clearNeighbourhoodTable() {
@@ -167,10 +180,6 @@
         var x = overflow(pos.x + vel.x * deltaTime, canvasWidth);
         var y = overflow(pos.y + vel.y * deltaTime, canvasHeight);
         boid.pos = new Vector(x, y);
-    }
-
-    function overflow(value, range) {
-        return ((value % range) + range) % range;
     }
 
     function updateBoidVel(boid, pos, vel, acc) {
@@ -257,6 +266,10 @@
         return new Vector((cx - boid.acc.x), (cy - boid.acc.y));
     }
 
+    function overflow(value, range) {
+        return ((value % range) + range) % range;
+    }
+
     /*
     *   Refresh.
     */
@@ -299,12 +312,8 @@
         canvasContext.moveTo(x - nx, y - ny);
         canvasContext.lineTo(x + nx, y + ny);
 
-        // Complete triangle.
+        // Complete triangle and stroke.
         canvasContext.closePath();
-
-        // Styling and stroke.
-        canvasContext.lineWidth = 1;
-        canvasContext.strokeStyle = 'gray';
         canvasContext.stroke();
     }
 
@@ -313,7 +322,71 @@
     */
 
     $(document).ready(function() {
-        main();
+        var sliders = [
+            { id: "number-of-boids-slider", default: 500 },
+            { id: "neighbourhood-radius-slider", default: 50 },
+            { id: "max-speed-slider", default: 300 },
+            { id: "max-acceleration-slider", default: 100 },
+            { id: "acceleration-decay-factor-slider", default: 0.75 },
+            { id: "rule1-weight-slider", default: 8 },
+            { id: "rule2-weight-slider", default: 6 },
+            { id: "rule3-weight-slider", default: 1 },
+            { id: "boid-height-slider", default: 10 },
+            { id: "boid-base-slider", default: 4 }
+        ];
+
+        _.each(sliders, function(slider) {
+            var sliderElement = $("#" + slider.id);
+            sliderElement.slider();
+            sliderElement.val(slider.default);
+            sliderElement.change(onSliderChange);
+        });
+
+        function onSliderChange() {
+            // Simulation parameters.
+            numberOfBoids = $("#number-of-boids-slider").val();
+            neighbourhoodRadius = $("#neighbourhood-radius-slider").val();
+            maxSpeed = $("#max-speed-slider").val();
+            maxAcceleration = $("#max-acceleration-slider").val();
+            accelerationDecayFactor = $("#acceleration-decay-factor-slider").val();
+            
+            // Rule weights.
+            var rule1SliderValue = +$("#rule1-weight-slider").val();
+            var rule2SliderValue = +$("#rule2-weight-slider").val();
+            var rule3SliderValue = +$("#rule3-weight-slider").val();
+            rule1Weight = 1.0 * rule1SliderValue / (rule1SliderValue + rule2SliderValue + rule3SliderValue);
+            rule2Weight = 1.0 * rule2SliderValue / (rule1SliderValue + rule2SliderValue + rule3SliderValue);
+            rule3Weight = 1.0 * rule3SliderValue / (rule1SliderValue + rule2SliderValue + rule3SliderValue);
+            
+            // Boid display settings.
+            boidHeight = $("#boid-height-slider").val();
+            boidBase = $("#boid-base-slider").val();
+
+            // Update slider displays.
+            $("#number-of-boids-value").text(numberOfBoids);
+            $("#neighbourhood-radius-value").text(neighbourhoodRadius);
+            $("#max-speed-value").text(maxSpeed);
+            $("#max-acceleration-value").text(maxAcceleration);
+            $("#acceleration-decay-factor-value").text(accelerationDecayFactor);
+            $("#rule1-weight-value").text(rule1Weight.toFixed(3));
+            $("#rule2-weight-value").text(rule2Weight.toFixed(3));
+            $("#rule3-weight-value").text(rule3Weight.toFixed(3));
+            $("#boid-height-value").text(boidHeight);
+            $("#boid-base-value").text(boidBase);
+
+            runMain();
+        }
+
+        var intervalId = null;
+
+        function runMain() {
+            if (intervalId !== null) {
+                clearInterval(intervalId);
+            }
+            intervalId = main();
+        }
+
+        onSliderChange();
     });
 
 })();

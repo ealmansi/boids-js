@@ -2,12 +2,69 @@
 <html>
 <head>
     <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.1.1/css/bootstrap-slider.min.css">
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <canvas></canvas>
-    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <h4>Simulation parameters.</h4>
+            <div class="input-group">
+                <input id="number-of-boids-slider" type="text" data-slider-tooltip="hide" data-slider-min="1" data-slider-max="1000" data-slider-step="100" data-slider-value="500"/>
+                <span class="slider-label"> Number Of Boids: </span><small><span id="number-of-boids-value"></span></small>
+            </div>
+            <div class="input-group">
+                <input id="neighbourhood-radius-slider" type="text" data-slider-tooltip="hide" data-slider-min="10" data-slider-max="100" data-slider-step="5" data-slider-value="50"/>
+                <span class="slider-label"> Neighbourhood Radius: </span><small><span id="neighbourhood-radius-value"></span></small>
+            </div>
+            <div class="input-group">
+                <input id="max-speed-slider" type="text" data-slider-tooltip="hide" data-slider-min="50" data-slider-max="500" data-slider-step="10" data-slider-value="300"/>
+                <span class="slider-label"> Max Speed: </span><small><span id="max-speed-value"></span></small>
+            </div>
+            <div class="input-group">
+                <input id="max-acceleration-slider" type="text" data-slider-tooltip="hide" data-slider-min="50" data-slider-max="300" data-slider-step="10" data-slider-value="100"/>
+                <span class="slider-label"> Max Acceleration: </span><small><span id="max-acceleration-value"></span></small>
+            </div>
+            <div class="input-group">
+                <input id="acceleration-decay-factor-slider" type="text" data-slider-tooltip="hide" data-slider-min="0.0" data-slider-max="1.0" data-slider-step="0.05" data-slider-value="0.75"/>
+                <span class="slider-label"> Acceleration Decay Factor: </span><small><span id="acceleration-decay-factor-value"></span></small>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <h4>Rule weights.</h4>
+            <div class="input-group">
+                <input id="rule1-weight-slider" type="text" data-slider-tooltip="hide" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="8"/>
+                <span class="slider-label"> Rule 1 Weight: </span><small><span id="rule1-weight-value"></span></small>
+            </div>
+            <div class="input-group">
+                <input id="rule2-weight-slider" type="text" data-slider-tooltip="hide" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="6"/>
+                <span class="slider-label"> Rule 2 Weight: </span><small><span id="rule2-weight-value"></span></small>
+            </div>
+            <div class="input-group">
+                <input id="rule3-weight-slider" type="text" data-slider-tooltip="hide" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="1"/>
+                <span class="slider-label"> Rule 3 Weight: </span><small><span id="rule3-weight-value"></span></small>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <h4>Boid display settings.</h4>
+            <div class="input-group">
+                <input id="boid-height-slider" type="text" data-slider-tooltip="hide" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="10"/>
+                <span class="slider-label"> Boid Height: </span><small><span id="boid-height-value"></span></small>
+            </div>
+            <div class="input-group">
+                <input id="boid-base-slider" type="text" data-slider-tooltip="hide" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="4"/>
+                <span class="slider-label"> Boid Base: </span><small><span id="boid-base-value"></span></small>
+            </div>
+        </li>
+    </ul>
+    <canvas id="boids-canvas"></canvas>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.1.1/bootstrap-slider.min.js"></script>
     <script src="./boids.js"></script>
 </body>
 </html>
+
