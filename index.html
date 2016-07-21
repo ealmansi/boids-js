@@ -2,12 +2,22 @@
 <html>
 <head>
     <title></title>
+    <!-- CSS dependencies. -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.1.1/css/bootstrap-slider.min.css">
+    <!-- Custom CSS. -->
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
+    <!-- JS dependencies. -->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.1.1/bootstrap-slider.min.js"></script>
+    <!-- Custom JS. -->
+    <script src="./boids.js"></script>
+    <!-- Sliders -->
     <ul class="list-group">
         <li class="list-group-item">
             <h4>Simulation parameters.</h4>
@@ -59,12 +69,8 @@
             </div>
         </li>
     </ul>
+    <!-- Drawing canvas. -->
     <canvas id="boids-canvas"></canvas>
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.1.1/bootstrap-slider.min.js"></script>
-    <script src="./boids.js"></script>
 </body>
 </html>
 
